@@ -227,13 +227,6 @@ static int _max_vampiric_drain(void)
                     add_flag(o_ptr->flags, OF_SLAY_ANIMAL);
                 }
                 break;
-            case 13:
-                if (one_in_(12))
-                { 
-                    feed = TRUE; 
-                    add_flag(o_ptr->art_flags, TR_SLAY_ANIMAL); 
-                } 
-                break;
             }
         }
 

@@ -1142,14 +1142,11 @@ void equip_calc_bonuses(void)
         if (o_ptr->name1 == ART_MAUL_OF_VICE)
             p_ptr->maul_of_vice = TRUE;
 
-        if (have_flag(flgs, OF_LORE2 || o_ptr->name3 == ART_STONE_LORE))
+        if (have_flag(flgs, OF_LORE2) || o_ptr->name3 == ART_STONE_LORE)
             p_ptr->auto_id = TRUE;
         else if (have_flag(flgs, OF_LORE1))
             p_ptr->auto_pseudo_id = TRUE;
 		
-        if (o_ptr->name2 == EGO_BOOTS_FAIRY || o_ptr->name2 == EGO_CLOAK_FAIRY)
-            p_ptr->fairy_stealth = TRUE;
-
         if (o_ptr->name2 == EGO_GLOVES_GIANT)
         {
             int hand = _template->slots[i].hand;

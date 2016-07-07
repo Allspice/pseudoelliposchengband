@@ -2184,7 +2184,6 @@ static bool inn_comm(int cmd)
                 else
                 {
                     int i;
-                    object_type *o_ptr;
 
                     set_blind(0, TRUE);
                     set_confused(0, TRUE);
@@ -2962,12 +2961,14 @@ static bool enchant_item(int cost, int to_hit, int to_dam, int to_ac, bool is_gu
             {
                 int new_cost = new_object_cost(&copy, COST_REAL);
                 int unit_cost_add = new_cost - old_cost;
-                old_cost = new_cost;
                 int min_cost = (i+1)*cost;
+				int unit_cost;
 
+				old_cost = new_cost;
+                
                 unit_cost_add *= m;
                 unit_cost_sum += unit_cost_add;
-                int unit_cost = unit_cost_sum;
+                unit_cost = unit_cost_sum;
 
                 unit_cost = store_calc_sell_price(unit_cost, store_factor);
 

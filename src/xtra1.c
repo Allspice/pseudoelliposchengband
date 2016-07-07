@@ -3844,13 +3844,15 @@ void calc_bonuses(void)
             p_ptr->rune_elem_prot = TRUE;
         if (o_ptr->rune == RUNE_GOOD_FORTUNE) 
             p_ptr->good_luck = TRUE;
-        if (o_ptr->name1 == ART_STONE_LORE || o_ptr->name3 == ART_STONE_LORE)
-            p_ptr->loremaster = TRUE;
+        if (o_ptr->name1 == ART_STONE_LORE || o_ptr->name3 == ART_STONE_LORE){
+            p_ptr->auto_id = TRUE;
+		}
+		
     }
 
     // Maybe there's a better place to put this?
-    if (p_ptr->lev >= 25)
-        p_ptr->loremaster = TRUE;
+    if (easy_id && p_ptr->lev >= 25)
+        p_ptr->auto_id = TRUE;
 
     mut_calc_bonuses();  /* Process before equip for MUT_FLESH_ROT */
     equip_calc_bonuses();

@@ -163,14 +163,6 @@ static void sense_inventory_aux(int slot, bool heavy)
 
 
 
-/*
- * Sense the inventory
- */
-<<<<<<< HEAD
-static void sense_inventory1(void)
-{
-    int         i;
-=======
 static int _adj_pseudo_id(int num)
 {
     int result = num * adj_pseudo_id[p_ptr->stat_ind[A_WIS]] / 100;
@@ -205,7 +197,6 @@ static void sense_inventory1(void)
     int         i;             /* v~~~ Early Game speed is ridiculous otherwise */
     int         plev = p_ptr->lev + 10;
     bool        heavy = FALSE;
->>>>>>> refs/heads/pr/1
     object_type *o_ptr;
 
     /*** Sense everything ***/
@@ -258,10 +249,7 @@ static void sense_inventory1(void)
 static void sense_inventory2(void)
 {
     int         i;
-<<<<<<< HEAD
-=======
     int         plev = p_ptr->lev + 10;
->>>>>>> refs/heads/pr/1
     object_type *o_ptr;
 
     /*** Sense everything ***/
@@ -3119,7 +3107,7 @@ static void process_world(void)
     process_world_aux_recharge();
 
     /* Loremaster */
-    if (p_ptr->loremaster)
+    if (p_ptr->auto_id)
         identify_pack();
 
     /* Feel the inventory */
