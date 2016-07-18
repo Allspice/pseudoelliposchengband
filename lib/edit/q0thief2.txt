@@ -38,8 +38,8 @@ F:u:FLOOR:8:194
 F:j:FLOOR:8:286
 
 # The doors, floors and treasures
-# Floor with a Barbarian Talisman
-F:":FLOOR:8:0:163:320
+# Floor with the Stone of Lore
+F:S:FLOOR:8:0:0:0:17
 
 # Normal floor
 F: :FLOOR:8
@@ -54,7 +54,7 @@ D:X  %  | u | u |  %  X
 D:X  %             %  X
 D:X  %  u | | | u  %  X
 D:X  %             %  X
-D:X  %  | | " | |  %  X
+D:X  %  | | S | |  %  X
 D:X  %             %  X
 D:X  %  u | | | u  %  X
 D:X  %             %  X
