@@ -4669,6 +4669,9 @@ void calc_bonuses(void)
     if (!p_ptr->weapon_ct && p_ptr->tim_speed_essentia)
         p_ptr->innate_attack_info.xtra_blow += 200;
 
+    if (p_ptr->tim_weaponmastery) /* Possible for metamorphosed Draconians */
+        p_ptr->innate_attack_info.to_dd += p_ptr->lev/23;
+
     if (p_ptr->riding)
     {
         int penalty = 0;
