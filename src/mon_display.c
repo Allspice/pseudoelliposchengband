@@ -395,7 +395,7 @@ static u32b _DeBruijnBitPosition32(u32b flag){
 static string_ptr _format_spell4(monster_race *r_ptr, char* name, u32b element, char col, bool showdmg)
 {
 	u32b r = _DeBruijnBitPosition32(element);
-	int dmg = (_easy_lore(r_ptr)) ? max_mspell_damage(4,element,r_ptr) : r_ptr->innate_dmg[r];
+	int dmg = /*((_easy_lore(r_ptr))*/ TRUE ? max_mspell_damage(4,element,r_ptr) : r_ptr->innate_dmg[r];
 
 	if (showdmg && dmg > 0)
 		return string_alloc_format("<color:%c>%s (%d)</color>", col, name, dmg);
@@ -406,7 +406,7 @@ static string_ptr _format_spell4(monster_race *r_ptr, char* name, u32b element, 
 static string_ptr _format_spell5(monster_race *r_ptr, char* name, u32b element, char col, bool showdmg)
 {
 	u32b r = _DeBruijnBitPosition32(element);
-	int dmg = (_easy_lore(r_ptr)) ? max_mspell_damage(5, element, r_ptr) : r_ptr->spell_dmg[r];
+	int dmg = /*(_easy_lore(r_ptr))*/ TRUE ? max_mspell_damage(5, element, r_ptr) : r_ptr->spell_dmg[r];
 
 	if (showdmg && dmg > 0)
 		return string_alloc_format("<color:%c>%s (%d)</color>", col, name, dmg);
@@ -418,7 +418,7 @@ static string_ptr _format_spell6(monster_race *r_ptr, char* name, u32b element,c
 {
 
 	u32b r = _DeBruijnBitPosition32(element);
-	int dmg = (_easy_lore(r_ptr)) ? max_mspell_damage(6, element, r_ptr) : r_ptr->special_dmg[r];
+	int dmg = /*(_easy_lore(r_ptr))*/ TRUE ? max_mspell_damage(6, element, r_ptr) : r_ptr->special_dmg[r];
 
 	if (showdmg && dmg > 0)
 		return string_alloc_format("<color:%c>%s (%d)</color>", col, name, dmg);
