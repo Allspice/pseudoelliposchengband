@@ -539,7 +539,7 @@ static void _display_spells(monster_race *r_ptr, doc_ptr doc)
 	if (r_ptr->flags5 & RF5_BA_COLD)
 		vec_add(v, _format_spell5(r_ptr, "Frost Ball", RF5_BA_COLD, 'W', showDmg));
 	if (r_ptr->flags5 & RF5_BA_POIS)
-		vec_add(v, _format_spell5(r_ptr, "Poison Ball", RF5_BA_POIS, 'W', showDmg));
+		vec_add(v, _format_spell5(r_ptr, "Poison Ball", RF5_BA_POIS, 'G', showDmg));
 	if (r_ptr->flags5 & RF5_BA_NETH)
 		vec_add(v, _format_spell5(r_ptr, "Nether Ball", RF5_BA_NETH, 'D', showDmg));
 	if (r_ptr->flags5 & RF5_BA_WATE)
