@@ -994,7 +994,6 @@ bool apply_disenchant(int mode)
 
         if (demigod_is_(DEMIGOD_HEPHAESTUS))
         {
-            msg_format("Your divine blood protects your %s (%c) from disenchantment!", o_name, slot_label(slot));
             return TRUE;
         }
         if (object_is_artifact(o_ptr) && (randint0(100) < 71))
@@ -2450,33 +2449,32 @@ bool recharge_from_player(int power)
 {
     obj_prompt_t prompt = {0};
     int          amt, max;
-    char resource[32];
+    cptr         resource = NULL;
 
     amt = power;
     if (p_ptr->prace == RACE_MON_LEPRECHAUN)
     {
         if (amt > p_ptr->au / 100)
             amt = p_ptr->au / 100;
-        sprintf(resource, "money");
+        resource = "money";
     }
     else if (p_ptr->pclass == CLASS_BLOOD_MAGE)
     {
         if (amt > p_ptr->chp)
             amt = p_ptr->chp;
-        sprintf(resource, "health");
+        resource = "health";
     }
     else
     {
         if (amt > p_ptr->csp)
             amt = p_ptr->csp;
-        sprintf(resource, "SP");
+        resource = "mana";
     }
 
     if (amt == 0) 
     {
-
         msg_format("Failed! You don't have enough %s!", resource);
-        return NULL;
+        return FALSE;
     }
 
     /* Get destination device */
@@ -2490,7 +2488,6 @@ bool recharge_from_player(int power)
     obj_prompt(&prompt);
     if (!prompt.obj) return FALSE;
 
-    amt = power;
     max = device_max_sp(prompt.obj) - device_sp(prompt.obj);
     if (amt > max)
         amt = max;
@@ -3704,7 +3701,6 @@ static int minus_ac(void)
 
         if (demigod_is_(DEMIGOD_HEPHAESTUS))
         {
-            msg_format("Your divine blood protects your %s (%c) from corrosion!", o_name, slot_label(slot));
             obj_learn_flag(o_ptr, OF_IGNORE_ACID);
             return TRUE;
         }

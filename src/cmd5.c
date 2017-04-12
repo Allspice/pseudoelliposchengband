@@ -1039,7 +1039,7 @@ void do_cmd_cast(void)
             }
         }
 
-        virtue_on_cast_spell(spell, need_mana, chance);
+        virtue_on_cast_spell(use_realm, need_mana, chance);
 
         if (mp_ptr->spell_xtra & MAGIC_GAIN_EXP)
         {

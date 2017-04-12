@@ -42,7 +42,7 @@ void rodeo_spell(int cmd, variant *res)
             cmsg_format(TERM_RED, "You cannot tame anything in here!");
             tame_success = FALSE;
         }
-        else if ((r_ptr->flags7 & RF7_GUARDIAN) || (m_ptr->mflag2 & MFLAG2_QUESTOR))
+        else if ((r_ptr->flags7 & RF7_GUARDIAN) || (r_ptr->flagsx & RFX_QUESTOR))
         {
             cmsg_format(TERM_RED, "It is impossible to tame %s!", m_name);
             tame_success = FALSE;
@@ -64,7 +64,7 @@ void rodeo_spell(int cmd, variant *res)
         {
             tame_success = TRUE;
         }
-        
+
         if (tame_success)
         {
             cmsg_format(TERM_L_GREEN, "You tame %s.", m_name);
