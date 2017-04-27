@@ -309,6 +309,7 @@ extern bool alert_trap_detect;    /* Alert when leaving trap detected area */
 
 extern bool easy_id;        /* Easy Identify */
 extern bool easy_lore;      /* Easy Monster Lore */
+extern bool easy_quests;    /* Allow retaking random quests*/
 extern bool smart_learn;    /* Monsters learn from their mistakes (*) */
 extern bool smart_cheat;    /* Monsters exploit players weaknesses (*) */
 extern bool no_wilderness;  /* Play without a normal wilderness */

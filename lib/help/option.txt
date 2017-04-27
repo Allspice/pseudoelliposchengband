@@ -20,6 +20,9 @@ In addition, this birth option will also affect the early game pseudo-identifica
 <topic:easy_lore><color:U>Easy Lore</color> <color:D>(easy_lore)</color>
 With this option enabled, the player will be born with complete knowledge of monster lore, including the various attacks and nasty surprises that many monsters usually offer to the uninitiated. This is a bit of a spoiler option, but is available for those who don't enjoy learning each of the many monsters present in the game. Like the <color:U>Easy Identify</color> option, <color:U>Easy Lore</color> also renders a few aspects of the game non-functional or pointless, including the ability to <color:keyword>Probe</color> monsters to learn about them as you encounter them, and the town <color:keyword>Beastmaster Lore</color> service to learn about monsters before you see them (for a price, of course).
 
+<topic:easy_quests><color:U>Allow Retaking Random Quests</color> <color:D>(easy_quests)</color>
+Allows the player to leave (and later re-enter) the levels of random quests in Angband without failing them. Similar effect to the old, poorly named "ironman_quests". Note that this only affects the random quests in the dungeon, not the fixed quests available in town.
+
 <topic:smart_learn><color:U>Monsters learn from their mistakes</color> <color:D>(smart_learn)</color>
 Allow monsters to learn what spell attacks you are resistant to, and to use this information to choose the best attacks.
 
