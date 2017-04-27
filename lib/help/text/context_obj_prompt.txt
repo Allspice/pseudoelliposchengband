@@ -131,6 +131,7 @@ Quick Reference
   A-Z       Inspect Indicated Object
   Page Up   Scroll Through Long Object Lists
   Page Down
+  Space
   Esc       Cancel the Prompt
   
   Tab Navigation
