@@ -1,10 +1,11 @@
 ======================
 pseudoelliposchengband
 ======================
-Changelog versus elliposchengband, as of April 12, 2017:
+Changelog versus elliposchengband, as of May 06, 2017:
 
 Significant gameplay changes:
 -----------------------------
+- Added the easy_quests option, which allows leaving the floors of Angband's random quests without failing them, similar to the effects of the ironman_quests option from version 5.0
 - Rune Knights reverted back to the vanilla class instead of ellipcb's nerf/rework.
 
 Minor gameplay changes:
@@ -27,6 +28,7 @@ Interface changes:
 
 Bug fixes:
 ----------
+- Rogues who choose burglary as their realm use dex as their spell stat (as they are supposed to), instead of having some things depend on dex and others on int.
 - Getting auto_id at level 25 properly checks the easy_id option instead of easy_lore.
 - Canceling the targetting prompt or killing your target monster now properly resets your target to nothing instead of buggily choosing a random tile. 
 - Messages when your gear is disenchanted or corroded now use the correct slot letter. 
