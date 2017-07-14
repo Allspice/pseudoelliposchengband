@@ -395,10 +395,7 @@ static errr _parse_q_info(char *line, int options)
             else if (streq(flag, "RETAKE"))
                 quest->flags |= QF_RETAKE;
             else if (streq(flag, "RANDOM"))
-            {
                 quest->flags |= QF_RANDOM;
-                if (easy_quests) quest->flags |= QF_RETAKE;
-            }
             else if (streq(flag, "ANYWHERE"))
                 quest->flags |= QF_ANYWHERE;
             else if (streq(flag, "NO_MSG"))

@@ -2405,9 +2405,6 @@ option_type option_info[] =
     { &easy_lore,                   FALSE, OPT_PAGE_BIRTH, 6, 30,
     "easy_lore",                    "Easy Lore" },
 
-    { &easy_quests,                 FALSE, OPT_PAGE_BIRTH, 2, 15,
-    "easy_quests",                  "Allow retaking random quests"},
-
     { &smart_learn,                 TRUE,  OPT_PAGE_BIRTH, 1, 14,
     "smart_learn",                  "Monsters learn from their mistakes (*)" },
 

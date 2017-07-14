@@ -292,7 +292,6 @@ bool alert_trap_detect;    /* Alert when leaving trap detected area */
 
 bool easy_id;        /* Easy Identify */
 bool easy_lore;      /* Easy Monster Lore */
-bool easy_quests;    /* Allow retaking random quests*/
 bool smart_learn;    /* Monsters learn from their mistakes (*) */
 bool smart_cheat;    /* Monsters exploit players weaknesses (*) */
 bool no_wilderness;
