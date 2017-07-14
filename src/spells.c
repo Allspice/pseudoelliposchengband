@@ -31,7 +31,7 @@ spell_stats_ptr spell_stats_aux(cptr name)
 
 spell_stats_ptr spell_stats(spell_info *spell)
 {
-    cptr name = get_spell_name(spell->fn);
+    cptr name = get_spell_stat_name(spell->fn);
     return spell_stats_aux(name);
 }
 
@@ -61,7 +61,8 @@ void spell_stats_on_load(savefile_ptr file)
         stats->ct_fail = savefile_read_s32b(file);
         stats->skill = savefile_read_s32b(file);
         stats->max_skill = savefile_read_s32b(file);
-        stats->last_turn = savefile_read_s32b(file);
+        if (savefile_is_older_than(file, 6, 0, 6, 1))
+            savefile_read_s32b(file);
 
         str_map_add(map, name, stats);
     }
@@ -86,7 +87,6 @@ void spell_stats_on_save(savefile_ptr file)
         savefile_write_s32b(file, stats->ct_fail);
         savefile_write_s32b(file, stats->skill);
         savefile_write_s32b(file, stats->max_skill);
-        savefile_write_s32b(file, stats->last_turn);
     }
     str_map_iter_free(iter);
 }
@@ -196,6 +196,7 @@ void default_spell(int cmd, variant *res) /* Base class */
         var_set_bool(res, FALSE);
         break;
 
+    case SPELL_STAT_NAME: /* must return NULL so clients can requery with SPELL_NAME */
     default:
         var_clear(res);
         break;
@@ -260,6 +261,19 @@ cptr get_spell_name(ang_spell spell)
     variant v;
     var_init(&v);
     spell(SPELL_NAME, &v);
+    sprintf(buf, "%s", var_get_string(&v));
+    var_clear(&v);
+    return buf;
+}
+
+cptr get_spell_stat_name(ang_spell spell)
+{
+    static char buf[255];
+    variant v;
+    var_init(&v);
+    spell(SPELL_STAT_NAME, &v);
+    if (var_is_null(&v)) /* cf default_spell above */
+        spell(SPELL_NAME, &v);
     sprintf(buf, "%s", var_get_string(&v));
     var_clear(&v);
     return buf;
@@ -1047,9 +1061,16 @@ static void _dump_book(doc_ptr doc, int realm, int book)
     else
     {
         if (caster_ptr && (caster_ptr->options & CASTER_USE_HP))
-            doc_printf(doc, "<color:G>    %-23.23s Profic Lvl  HP Fail %-15.15s  Cast Fail</color>\n", k_name + k_info[k_idx].name, "Desc");
-        else
+        {
+            if (enable_spell_prof)
+                doc_printf(doc, "<color:G>    %-23.23s Profic Lvl  HP Fail %-15.15s  Cast Fail</color>\n", k_name + k_info[k_idx].name, "Desc");
+            else
+                doc_printf(doc, "<color:G>    %-23.23s Lvl  HP Fail %-15.15s  Cast Fail</color>\n", k_name + k_info[k_idx].name, "Desc");
+        }
+        else if (enable_spell_prof)
             doc_printf(doc, "<color:G>    %-23.23s Profic Lvl  SP Fail %-15.15s  Cast Fail</color>\n", k_name + k_info[k_idx].name, "Desc");
+        else
+            doc_printf(doc, "<color:G>    %-23.23s Lvl  SP Fail %-15.15s  Cast Fail</color>\n", k_name + k_info[k_idx].name, "Desc");
     }
 
     for (i = 0; i < 8; i++)
@@ -1147,7 +1168,7 @@ static void _dump_book(doc_ptr doc, int realm, int book)
                 )
             );
         }
-        else
+        else if (enable_spell_prof)
         {
             spell_stats_ptr stats = spell_stats_old(realm, s_idx);
             strcat(
@@ -1158,6 +1179,25 @@ static void _dump_book(doc_ptr doc, int realm, int book)
                     do_spell(realm, s_idx, SPELL_NAME),
                     (max ? '!' : ' '),
                     proficiency,
+                    s_ptr->slevel,
+                    cost,
+                    spell_chance(s_idx, realm),
+                    comment,
+                    stats->ct_cast,
+                    stats->ct_fail,
+                    spell_stats_fail(stats)
+                )
+            );
+        }
+        else
+        {
+            spell_stats_ptr stats = spell_stats_old(realm, s_idx);
+            strcat(
+                line,
+                format(
+                    "<color:%c>%-23s %3d %3d %3d%% %-15.15s %5d %4d %3d%%</color>",
+                    color,
+                    do_spell(realm, s_idx, SPELL_NAME),
                     s_ptr->slevel,
                     cost,
                     spell_chance(s_idx, realm),

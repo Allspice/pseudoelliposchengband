@@ -125,10 +125,10 @@ void quest_reward(quest_ptr q)
     reward = quest_get_reward(q);
     if (reward)
     {
-        char name[MAX_NLEN];
+        /*char name[MAX_NLEN];*/
         obj_identify_fully(reward);
-        object_desc(name, reward, OD_COLOR_CODED);
-        msg_format("You receive %s as a reward.", name);
+        /*object_desc(name, reward, OD_COLOR_CODED);
+        msg_format("You receive %s as a reward.", name);*/
         pack_carry(reward);
         obj_free(reward);
     }
@@ -616,7 +616,6 @@ static void _get_questor(quest_ptr q)
 
     for(attempt = 0;; attempt++)
     {
-
         int min_lev = q->level + 1;
         int max_lev = q->level + 9;
         int mon_lev;
@@ -669,7 +668,7 @@ static void _get_questor(quest_ptr q)
 void quests_on_birth(void)
 {
     vec_ptr v;
-    int i;
+    int i, last = 0;
 
     /* stale data from the last character */
     quests_cleanup();
@@ -680,6 +679,18 @@ void quests_on_birth(void)
     for (i = 0; i < vec_length(v); i++)
     {
         quest_ptr q = vec_get(v, i);
+        int       spread = MIN(8, MAX(3, q->level/10));
+        int       lvl, attempt = 0;
+
+        assert(q->level + spread > last);
+        do
+        {
+            lvl = rand_range(q->level - spread, q->level + spread);
+            ++attempt;
+        } while (lvl <= last && attempt < 1000);
+        last = lvl;
+        q->level = lvl;
+
         if (q->goal == QG_KILL_MON)
         {
             if (q->goal_idx) r_info[q->goal_idx].flagsx &= ~RFX_QUESTOR;
@@ -912,17 +923,31 @@ void quests_on_leave(void)
     assert(q);
     if (q->status == QS_IN_PROGRESS)
     {
+        bool fail = TRUE;
         if (q->flags & QF_RETAKE)
         {
-            q->status = QS_TAKEN;
-            _remove_questors();
+            fail = FALSE;
+            if (q->flags & QF_RANDOM)
+            {
+                cptr p = "If you like, you may choose to intentionally fail this quest. "
+                    "Choose this option if you feel that you really cannot handle this opponent or "
+                    "would rather not wait until you can. <color:v>Fail this quest?</color> "
+                    "<color:y>[Y,n]</color>";
+                char c = msg_prompt(p, "nY", PROMPT_NEW_LINE | PROMPT_ESCAPE_DEFAULT | PROMPT_CASE_SENSITIVE);
+                if (c == 'Y') fail = TRUE;
+            }
         }
-        else
+        if (fail)
         {
             quest_fail(q);
             if (q->goal == QG_KILL_MON)
                 r_info[q->goal_idx].flagsx &= ~RFX_QUESTOR;
             prepare_change_floor_mode(CFM_NO_RETURN);
+        }
+        else
+        {
+            q->status = QS_TAKEN;
+            _remove_questors();
         }
     }
     /* Hack: Return to surface */
