@@ -47,7 +47,7 @@ static int _max_vampiric_drain(void)
     if (o_ptr->curse_flags & OFC_PERMA_CURSE)
     {
         bool feed = FALSE;
-        bool unique = (r_ptr->flags1 & RF1_UNIQUE) ? TRUE : FALSE;
+        bool unique = (r_ptr->flags1 & RF1_UNIQUE);
 
         switch (randint1(4))
         {
@@ -4961,13 +4961,6 @@ bool move_player_effect(int ny, int nx, u32b mpe_mode)
         old_map = TRUE;
     if (cave[ny][nx].info & CAVE_IN_MAP)
         new_map = TRUE;
-
-    if (!(mpe_mode & MPE_STAYING) && (running || travel.run))
-    {
-        if (old_map && !new_map)
-            _auto_mapping();
-    }
-
     if (cave[py][px].info & CAVE_IN_DETECT)
         old_dtrap = TRUE;
     if (cave[ny][nx].info & CAVE_IN_DETECT)

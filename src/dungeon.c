@@ -4017,6 +4017,7 @@ static void process_player(void)
             /* Stop resting */
             if ( (p_ptr->chp == p_ptr->mhp || mimic_no_regen())
               && ( p_ptr->csp >= p_ptr->msp
+                || p_ptr->pclass == CLASS_RUNE_KNIGHT
                 || p_ptr->pclass == CLASS_RAGE_MAGE
                 || mimic_no_regen() )
               && !magic_eater_can_regen()
@@ -4032,6 +4033,7 @@ static void process_player(void)
             /* Stop resting */
             if ( (p_ptr->chp == p_ptr->mhp || mimic_no_regen())
               && ( p_ptr->csp >= p_ptr->msp
+                || p_ptr->pclass == CLASS_RUNE_KNIGHT
                 || p_ptr->pclass == CLASS_RAGE_MAGE
                 || mimic_no_regen() )
               && !magic_eater_can_regen()

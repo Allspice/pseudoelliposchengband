@@ -998,13 +998,7 @@ static void _display_drops(monster_race *r_ptr, doc_ptr doc)
 }
 static void _display_kills(monster_race *r_ptr, doc_ptr doc)
 {
-    int plev = p_ptr->max_plv;
-    if (spoiler_hack)
-        plev = 50;
-    if (spoiler_hack)
-    {
-    }
-    else if (r_ptr->flags1 & RF1_UNIQUE)
+    if (r_ptr->flags1 & RF1_UNIQUE)
     {
         if (spoiler_hack)
             doc_insert(doc, "Status  : <color:v>Unique</color>");
@@ -1027,6 +1021,7 @@ static void _display_kills(monster_race *r_ptr, doc_ptr doc)
 
     if (_easy_lore(r_ptr) || r_ptr->r_tkills)
     {
+        int plev = spoiler_hack ? 50 : p_ptr->max_plv;
         int xp = r_ptr->mexp * r_ptr->level / (plev + 2);
         char buf[10];
 

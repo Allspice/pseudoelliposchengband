@@ -1325,9 +1325,15 @@ static void _loop(_ui_context_ptr context)
                 doc_display_help("context_shop.txt", NULL);
                 Term_clear_rect(ui_shop_msg_rect());
                 break;
-            case SKEY_PGDOWN: case '3': case ' ':
+            case SKEY_PGDOWN: case '3':
                 if (context->top + context->page_size - 1 < max)
                     context->top += context->page_size;
+                break;
+            case ' ':
+                if (context->top + context->page_size - 1 < max)
+                    context->top += context->page_size;
+                else
+                    context->top = 1;
                 break;
             case SKEY_PGUP: case '9': case '-':
                 if (context->top > context->page_size)
@@ -1541,10 +1547,8 @@ static void _buy(_ui_context_ptr context)
     if (!prompt.obj) return;
 
     if (prompt.obj->number > 1)
-    {
-        amt = prompt.obj->number;
-        if (!msg_input_num("Quantity", &amt, 1, prompt.obj->number)) return;
-    }
+        if (!msg_input_num("Quantity", &amt, 1, prompt.obj->number))
+            return;
 
     if (amt < prompt.obj->number)
     {

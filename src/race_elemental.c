@@ -1000,7 +1000,7 @@ static void _fire_birth(void)
 
     object_prep(&forge, lookup_kind(TV_FLASK, SV_ANY));
     apply_magic(&forge, 1, AM_NO_FIXED_ART);
-    forge.number = (byte)rand_range(7, 12);
+    forge.number = (byte)10;
     py_birth_obj(&forge);
 
     py_birth_light();

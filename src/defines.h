@@ -4768,7 +4768,6 @@ extern int PlayerUID;
 #define MON_EARTH_ELEMENTAL 525
 #define MON_AIR_ELEMENTAL   526
 #define MON_EOG_GOLEM 530
-#define MON_SHEER_HEART_ATTACK 531
 #define MON_DREAD         534
 #define MON_OLOG         538
 #define MON_HALFLING_S    539
@@ -4852,7 +4851,6 @@ extern int PlayerUID;
 #define MON_DRACOLICH           701
 #define MON_G_TITAN             702
 #define MON_GREATER_TITAN       702
-#define MON_YIBB_TSTLL          706
 #define MON_ENT                 708
 #define MON_HRU                 709
 #define MON_FAFNER              712
@@ -6222,6 +6220,7 @@ enum effect_e
 #define BIAS_DEMON           0x00080000
 #define BIAS_PROTECTION      0x00100000
 #define BIAS_ARCHER          0x00200000
+#define BIAS_POWER           0x00400000
 
 enum dragon_realm_e
 {

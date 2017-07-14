@@ -801,7 +801,7 @@ void do_cmd_cast(void)
     use_realm = tval2realm(book->tval);
 
     /* Ask for a spell */
-    if (!get_spell(&spell, mp_ptr->spell_book == TV_LIFE_BOOK ? "recite" : "cast",
+    if (!get_spell(&spell, (mp_ptr->spell_book == TV_LIFE_BOOK) ? "recite" : "cast",
         book->sval, TRUE, use_realm, FALSE))
     {
         if (spell == -2)

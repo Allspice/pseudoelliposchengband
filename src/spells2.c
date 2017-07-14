@@ -2053,7 +2053,7 @@ bool genocide_aux(int m_idx, int power, bool player_cast, int dam_side, cptr spe
 
     /* Hack -- Skip Unique Monsters or Quest Monsters */
     if (r_ptr->flags1 & RF1_UNIQUE) resist = TRUE;
-    if (m_ptr->mflag2 & MFLAG2_QUESTOR) resist = TRUE;
+    else if (m_ptr->mflag2 & MFLAG2_QUESTOR) resist = TRUE;
 
     else if (r_ptr->flags7 & RF7_UNIQUE2) resist = TRUE;
 
@@ -2549,7 +2549,7 @@ bool destroy_area(int y1, int x1, int r, int power)
                             msg_format("Artifact (%s) was *destroyed* during generation.", o_name);
                         }
                     }
-                    else if (o_ptr->name3 && (!object_is_known(o_ptr) || in_generate))
+                    else if (random_artifacts && o_ptr->name3 && (!object_is_known(o_ptr) || in_generate))
                     {
                         /* Mega-Hack -- Preserve the artifact */
                         a_info[o_ptr->name3].generated = FALSE;

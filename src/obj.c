@@ -764,8 +764,7 @@ void gear_ui(int which)
     string_ptr   s;
 
     s = string_alloc_format(
-        "<color:w>Carrying %d.%d pounds (<color:%c>%d%%</color> capacity).</color>\n\n"
-        "Examine which item <color:w>(<color:keypress>Esc</color> to exit)</color>?",
+        "<color:w>Carrying %d.%d pounds (<color:%c>%d%%</color> capacity).</color>",
          wgt / 10, wgt % 10, pct > 100 ? 'r' : 'G', pct);
     prompt.prompt = string_buffer(s);
     prompt.where[0] = INV_PACK;
@@ -779,13 +778,9 @@ void gear_ui(int which)
     string_free(s);
 }
 
-static int _inscriber(obj_prompt_context_ptr context, int cmd)
+static void _inscriber(obj_ptr obj)
 {
-    obj_prompt_tab_ptr tab = vec_get(context->tabs, context->tab);
-    slot_t             slot = inv_label_slot(tab->inv, cmd);
-    if (slot)
     {
-        obj_ptr obj = inv_obj(tab->inv, slot);
         char    name[MAX_NLEN];
         char    insc[80];
 
@@ -795,16 +790,18 @@ static int _inscriber(obj_prompt_context_ptr context, int cmd)
         else
             strcpy(insc, "");
 
-        doc_clear(context->doc);
-        doc_printf(context->doc, "Inscribing %s.\n", name);
-        doc_printf(context->doc, "Inscription: ");
-        Term_load();
-        doc_sync_menu(context->doc);
+        msg_format("Inscribing %s.\n", name);
+        msg_print("Inscription: ");
         if (askfor(insc, 80))
-            obj->inscription = quark_add(insc);
-        return OP_CMD_HANDLED;
+        {
+            if (strlen(insc) == 0)
+                obj->inscription = 0;
+            else
+                obj->inscription = quark_add(insc);
+            p_ptr->notice |= PN_OPTIMIZE_PACK | PN_OPTIMIZE_QUIVER;
+            p_ptr->window |= PW_INVEN | PW_EQUIP;
+        }
     }
-    return OP_CMD_SKIPPED;
 }
 
 void obj_inscribe_ui(void)
@@ -818,25 +815,11 @@ void obj_inscribe_ui(void)
     prompt.where[1] = INV_EQUIP;
     prompt.where[2] = INV_QUIVER;
     prompt.where[3] = INV_FLOOR;
-    prompt.cmd_handler = _inscriber;
 
     obj_prompt(&prompt);
+    if (!prompt.obj) return;
 
-    p_ptr->notice |= PN_OPTIMIZE_PACK | PN_OPTIMIZE_QUIVER;
-    p_ptr->window |= PW_INVEN | PW_EQUIP;
-}
-
-static int _uninscriber(obj_prompt_context_ptr context, int cmd)
-{
-    obj_prompt_tab_ptr tab = vec_get(context->tabs, context->tab);
-    slot_t             slot = inv_label_slot(tab->inv, cmd);
-    if (slot)
-    {
-        obj_ptr obj = inv_obj(tab->inv, slot);
-        obj->inscription = 0;
-        return OP_CMD_HANDLED;
-    }
-    return OP_CMD_SKIPPED;
+    _inscriber(prompt.obj);
 }
 
 void obj_uninscribe_ui(void)
@@ -850,9 +833,11 @@ void obj_uninscribe_ui(void)
     prompt.where[1] = INV_EQUIP;
     prompt.where[2] = INV_QUIVER;
     prompt.where[3] = INV_FLOOR;
-    prompt.cmd_handler = _uninscriber;
 
     obj_prompt(&prompt);
+    if (!prompt.obj) return;
+    prompt.obj->inscription = 0;
+    msg_print("Inscription removed.");
 
     p_ptr->notice |= PN_OPTIMIZE_PACK | PN_OPTIMIZE_QUIVER;
     p_ptr->window |= PW_INVEN | PW_EQUIP;
@@ -1019,9 +1004,7 @@ static void _destroy(obj_ptr obj)
 
         if (!handled)
         {
-            if (obj->loc.where)
-                msg_print("Destroyed.");
-            else  /* Destroying part of a pile */
+            if (!obj->loc.where) /* Destroying part of a pile */
             {
                 char name[MAX_NLEN];
                 object_desc(name, obj, OD_COLOR_CODED);
